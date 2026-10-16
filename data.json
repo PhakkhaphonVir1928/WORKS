@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "id": "doc-1792144395465",
+    "topic": "ถอยสถานะ C&E inv",
+    "category": "C&E",
+    "problem": "ปิดงาน C&E  ไม่มีเมลล์แจ้ง ERROR โดยข้อมูล ระบบ INTERFACE เข้า SAP ข้อมูลการกลับขาเข้า COSTCENTER 25000,299603",
+    "details": "ถอยได้เลยไม่ต้องbackup",
+    "query": "select * from ce_log_interfacesap where invoice_no = '3020132684' ;\nselect * from ce_log_interfacesap where invoice_no = '3020132687' ;\nselect * from ce_log_interfacesap where invoice_no = '3020125042' ; \n\nselect * from wf_step where wf_version_id = 1 ; \nselect * from WF_STATUS where wf_version_id = 1 ; \n\n\n\nupdate WF_TRANSACTION set WF_STEP_ID = '122' , WF_STATUS_ID = '122' where transaction_pk in (select quotation_id from ce_quotation where invoice_no = '' and vendor_id = '43');",
+    "updatedAt": "เมื่อสักครู่"
+  }
+]
