@@ -1,0 +1,38 @@
+[
+  {
+    "id": "doc-1",
+    "topic": "ดึงข้อมูลสรุปสถานะงานและยอดประจำเดือนแยกตามพื้นที่ (RSM Summary)",
+    "category": "RSM",
+    "problem": "ยอดสรุปในหน้า Dashboard ของ RSM ไม่ตรงกับรายงานประจำเดือนเนื่องจากมีรายการที่ถูกยกเลิก (CANCELLED) และบัญชีทดสอบปะปน",
+    "details": "กรองเฉพาะรายการที่มีสถานะ APPROVED หรือ COMPLETED และตัดรายการทดสอบ (is_test = false) ก่อนรวมยอดตามรหัสพื้นที่ (region_code)",
+    "query": "SELECT region_code,\n       COUNT(DISTINCT case_id) AS total_cases,\n       SUM(total_amount) AS net_amount\nFROM rsm_transactions\nWHERE status IN ('APPROVED', 'COMPLETED')\n  AND is_test = FALSE\n  AND transaction_date >= DATE_TRUNC('month', CURRENT_DATE)\nGROUP BY region_code\nORDER BY net_amount DESC;",
+    "updatedAt": "16 ต.ค. 2026"
+  },
+  {
+    "id": "doc-2",
+    "topic": "ตรวจสอบข้อมูล MI Report ที่อัปเดตล่าช้าหรือค้างใน Data Pipeline",
+    "category": "MI",
+    "problem": "รายงานวิเคราะห์ข้อมูล (MI) ช่วงเช้าไม่อัปเดตตามเวลาที่ตั้งไว้ ต้องตรวจสอบว่าติดที่ขั้นตอนหรือ Batch ใด",
+    "details": "คิวรีตรวจสอบตาราง mi_job_logs เพื่อดูงานที่สถานะเป็น FAILED หรือค้างสถานะ RUNNING นานเกิน 30 นาที พร้อมดึงข้อความ Error ล่าสุด",
+    "query": "SELECT job_id, report_name, status, started_at, error_message\nFROM mi_job_logs\nWHERE (status = 'FAILED'\n   OR (status = 'RUNNING' AND started_at < NOW() - INTERVAL '30 minutes'))\n  AND run_date = CURRENT_DATE\nORDER BY started_at DESC;",
+    "updatedAt": "16 ต.ค. 2026"
+  },
+  {
+    "id": "doc-3",
+    "topic": "ตรวจสอบสิทธิ์ผู้ใช้งานและสถานะบัญชีในระบบ AMS",
+    "category": "AMS",
+    "problem": "ผู้ใช้งานแจ้งว่าไม่สามารถเข้าถึงเมนูจัดการข้อมูลในระบบ AMS ได้ แม้จะมีชื่ออยู่ในระบบแล้ว",
+    "details": "เช็กสถานะบัญชี (account_status), วันหมดอายุของสิทธิ์ (expired_at) และ Role ที่ผูกอยู่ในตาราง ams_user_roles",
+    "query": "SELECT u.user_id, u.username, u.account_status,\n       r.role_code, ur.granted_at, ur.expired_at\nFROM ams_users u\nLEFT JOIN ams_user_roles ur ON u.user_id = ur.user_id\nLEFT JOIN ams_roles r ON ur.role_id = r.role_id\nWHERE u.username = 'target_username'\n  AND (ur.expired_at IS NULL OR ur.expired_at > NOW());",
+    "updatedAt": "15 ต.ค. 2026"
+  },
+  {
+    "id": "doc-4",
+    "topic": "ดึงรายการกิจกรรมและแคมเปญลูกค้าที่รอยืนยันผล (C&E Tracking)",
+    "category": "C&E",
+    "problem": "ต้องการดึงรายชื่อเคสและกิจกรรมในหมวด C&E ที่ยังค้างสถานะรอดำเนินการเกิน 14 วันเพื่อติดตามผล",
+    "details": "ดึงข้อมูลจากตาราง ce_engagements เชื่อมกับข้อมูลลูกค้า โดยกรองเฉพาะสถานะ PENDING_CONFIRM ย้อนหลัง 14 วัน",
+    "query": "SELECT e.engagement_id, e.campaign_code, c.customer_name,\n       e.channel, e.assigned_to, e.created_at\nFROM ce_engagements e\nJOIN customers c ON e.customer_id = c.customer_id\nWHERE e.status = 'PENDING_CONFIRM'\n  AND e.created_at >= CURRENT_DATE - INTERVAL '14 days'\nORDER BY e.created_at ASC;",
+    "updatedAt": "14 ต.ค. 2026"
+  }
+]
