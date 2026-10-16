@@ -1,5 +1,23 @@
 [
   {
+    "id": "doc-1792169253656",
+    "topic": "ขอแก้ผู้อนุมัติ AMS",
+    "category": "AMS",
+    "problem": "ขอแก้ผู้อนุมัติ AMS",
+    "details": "แก้ไขผู้อนุมัติ",
+    "query": "select * from ams_request_form where form_no = '2025/01004105';\nselect * from wf_transaction where transaction_pk = '405512';\nselect * from wf_approve where transaction_pk = '405512';\nselect * from wf_step where WF_STEP_ID = '308';\n\n--เอารหัสพนักงานคนที่จะอนุมัติมาใส่ แล้วเอา bs_user_id มา--\nselect * from bs_user where emp_code = '5187200';---118028\nselect * from bs_user where bs_user_id = '584852';\n\n\n--นำ bs_user_id ที่ได้จากข้างบนมาใส่ใน next_approve_by--\nupdate wf_transaction set next_approve_by = '118028' , next_approve_type = 'USER' where transaction_pk = '405512';\n\n--นำ bs_user_id ที่ได้จากข้างบนมาใส่ใน approve_by--\nupdate wf_approve set approve_by = '118028' , approve_type = 'USER'  where wf_approve_id = '1895727';",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
+    "id": "doc-1792169153349",
+    "topic": "สถานะGosdไม่ตรงRSSM",
+    "category": "RSM",
+    "problem": "สถานะGosdไม่ตรงRSSM",
+    "details": "https://admin-rsm.cpretailink.co.th/#/rerun-gosd \n--เข้าไปรีรันโดยใส่ tecke",
+    "query": "-",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
     "id": "doc-1792169076951",
     "topic": "ปิดงานข้ามplamt",
     "category": "RSM",
