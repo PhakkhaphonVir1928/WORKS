@@ -1,5 +1,41 @@
 [
   {
+    "id": "doc-1792169076951",
+    "topic": "ปิดงานข้ามplamt",
+    "category": "RSM",
+    "problem": "ปิดงานข้ามplamt",
+    "details": "https://itsm.cpall.co.th/incidents/request/main-incident?id=42364\n\nแก้ไขJson เหลือทีมแล้ว ปรับ error form 3อันให้เป็นNull",
+    "query": "-",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
+    "id": "doc-1792168973513",
+    "topic": "ถอยเอกสารC&E",
+    "category": "C&E",
+    "problem": "ถอยสถานะเอกสารC&E",
+    "details": "ถอยเอกสารแบบ เลขใบเสนอราคา",
+    "query": "SELECT t.transaction_pk, t.WF_STEP_ID, t.WF_STATUS_ID\nFROM WF_TRANSACTION t\nWHERE t.transaction_pk IN (\n    SELECT quotation_id\n    FROM ce_quotation\n    WHERE QUOTATION_NO = '690923-17-005728' --หรือinvoice\n);\n\nUPDATE wf_transaction set wf_step_id = '101' , wf_status_id = '101' where transaction_pk = '12024244' ; --ใช้อัพเดทเท่านั้น",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
+    "id": "doc-1792168907523",
+    "topic": "ตรวจหาทรัพสิน AMS",
+    "category": "AMS",
+    "problem": "ปัญหา:หาทรัพย์สินในระบบไม่พบ",
+    "details": "หาทรัพย์สิน",
+    "query": "SELECT * FROM ams_costcenter WHERE costcenter_code = '501006'; -- หาจากcostร้าน ของcostcenter หา ams_costcenter_id\n\nSELECT * FROM ams_asset where ams_costcenter_id = '107594'; -- หา แบบทรัพสินทั้งหมด\n\nSELECT * FROM ams_asset where ams_costcenter_id = '107594' and asset_code = '000096007943' ; -- หาแบบเจาะจงโดยเลข\n \nSELECT * FROM ams_loc ; -- ของams\n\nSELECT * FROM ams_loc_cost_map; -- แบบรวม costcenter และams",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
+    "id": "doc-1792168813373",
+    "topic": "ยกเลิกเอกสารAMS",
+    "category": "AMS",
+    "problem": "สาเหตุ: User ต้องการยกเลิกเอกสาร",
+    "details": "สาเหตุ: เอกสารดำเนินการยกเลิกไม่สมบูรณ์ \nสาเหตุ: User ต้องการยกเลิกเอกสาร\nWorlaround: ดำเนินการปรับสถานะเอกสารเป็นยกเลิกให้ User เรียบร้อย\nPermanence : N/A",
+    "query": "select * from ams_request_form where form_no = '2026/02003636';\n\nselect * from wf_approve where TRANSACTION_PK = '461798' order by Approve_Seq;\nselect * from wf_transaction where TRANSACTION_PK = '461798';\n\nselect * from wf_step where WF_STEP_ID = '308';\nselect * from WF_STATUS where WF_STATUS_ID = '308';\n\n\nUpdate WF_APPROVE\nset WF_APPROVE.APPROVE_REMARK = ' ยกเลิกโดย Admin  เนื่องจาก User คียืข้อมูลผิด  ',\nAPPROVE_DATE = sysdate,\nApprove_result = 'N',\nWF_APPROVE.actual_by = '1',\nWF_APPROVE.update_by = '1',\nWF_APPROVE.update_date = sysdate,\nWF_APPROVE.version_no = '3.28'\nwhere transaction_pk = '461798'\nand wf_step_id = '209';\n\n\n\n\nUPDATE WF_TRANSACTION SET \n\tWF_STATUS_ID = CASE WF_VERSION_ID \n\t\tWHEN 1 THEN 115 \n\t\tWHEN 2 THEN 210 \n\t\tWHEN 3 THEN 308\n\t\tWHEN 4 THEN 409\n\t\tWHEN 5 THEN 512\n\t\tELSE WF_STATUS_ID END,\n\tWF_STEP_ID = CASE WF_VERSION_ID\n\t\tWHEN 1 THEN 113 \n\t\tWHEN 2 THEN 209 \n\t\tWHEN 3 THEN 308\n\t\tWHEN 4 THEN 410\n\t\tWHEN 5 THEN 509\n\t\tELSE WF_STEP_ID END,\n\tNEXT_APPROVE_BY = NULL,\n\tNEXT_APPROVE_TYPE = NULL,\n\tLAST_APPROVE_REMARK = 'ยกเลิกโดย Admin  เนื่องจาก User คียืข้อมูลผิด' ,\n\tUPDATE_BY = 1,\n\tUPDATE_DATE = SYSDATE\nWHERE TRANSACTION_PK = '461798';\n\n\n\n\nupdate ams_asset aa\nset aa. bs_desc_asset_status_id = '24' \nwhere aa.ams_asset_id in (select arfd.ams_asset_id from ams_request_form_detail arfd where ARFD.AMS_REQUEST_FORM_ID = '461798');",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
     "id": "doc-1792144395465",
     "topic": "ถอยสถานะ C&E inv",
     "category": "C&E",
