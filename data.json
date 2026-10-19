@@ -1,5 +1,14 @@
 [
   {
+    "id": "doc-1792402085289",
+    "topic": "aduit",
+    "category": "RSM",
+    "problem": "aduit",
+    "details": "aduit",
+    "query": "SELECT \n    ai.*, \n    ac.*\nFROM asset_inventory ai\nINNER JOIN asset_count ac ON ai.asset_inventory_id = ac.asset_inventory_id\nwhere document_audit_no_id = 19144 ;\n \nSELECT * FROM rtl_rssm.document_audit_no where document_audit_no_code like ('%261015131306/8902860%') ; -- 90493  85891\nSELECT * FROM rtl_rssm.audit_inventory where staff_id = 90493 ;\nSELECT * FROM rtl_rssm.audit_list where audit_list_id = 19144 ;\n-- ENUM('WAITING', 'IN_PROGRESS', 'FINISHED')\n \n \nSELECT * FROM rtl_rssm.asset_count where audit_list_id in (19144) ;\nSELECT * FROM rtl_rssm.asset_count where asset_inventory_id in (195762) ;\n \nSELECT * FROM rtl_rssm.asset_inventory where document_audit_no_id = 19144 ;\nSELECT * FROM rtl_rssm.asset_inventory where asset_inventory_id in (195762,195847,196413) ;\n \nSELECT * FROM rtl_rssm.material_count where audit_list_id in (21932) ;\nSELECT * FROM rtl_rssm.scrap_count where audit_list_id in (19144) ;",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
     "id": "doc-1792169253656",
     "topic": "ขอแก้ผู้อนุมัติ AMS",
     "category": "AMS",
