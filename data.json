@@ -1,5 +1,14 @@
 [
   {
+    "id": "doc-1792574038123",
+    "topic": "SAP Return Error: Error033 (RW) Item-0 [-] Accounting Interface: Balance in Transaction Currency",
+    "category": "RSM",
+    "problem": "มีข้อมูลใน store_code ค้างอยู๋ใน ce_ul_import ช่วย run ข้อมูลให้หน่อยครับ",
+    "details": "ต้องไม่แสดงข้อมูลแปลว่าถูก ถ้าแสดงส่งเรื่องต่อพี่เดือน",
+    "query": "select * from CE_QUOTATION cq\nleft join ce_ul cu on cu.UL_CODE = cq.store_code\nwhere cu.UL_CODE is null and cq.INVOICE_NO = 'sm2506064';\nSELECT * from  ce_ul_import where ul_code = '23109' ;",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
     "id": "doc-1792402126919",
     "topic": "aduit",
     "category": "RSM",
