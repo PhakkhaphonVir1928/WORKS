@@ -1,5 +1,14 @@
 [
   {
+    "id": "doc-1793176737598",
+    "topic": "ยกเลิกแผนงาน",
+    "category": "AMS",
+    "problem": "ยกเลิก Self Audit",
+    "details": "สาเหตุ:User ต้องการให้ยกเลิก แผนงาน 2026/000004\nแก้ไข: ได้ทำการยกเลิกแผนงานเรียบร้อยแล้ว",
+    "query": "select * from ams_audit_plan where ams_audit_plan_no = '2025/000004';\nselect * from ams_audit_plan_status ;\nUpdate  ams_audit_plan set ams_audit_plan_status_id = '5' where  ams_audit_plan_no = '2025/000004';",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
     "id": "doc-1792574038123",
     "topic": "SAP Return Error: Error033 (RW) Item-0 [-] Accounting Interface: Balance in Transaction Currency",
     "category": "RSM",
