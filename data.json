@@ -1,5 +1,23 @@
 [
   {
+    "id": "doc-1795573078299",
+    "topic": "เช็คUser ผูกVendor",
+    "category": "C&E",
+    "problem": "-",
+    "details": "-",
+    "query": "SELECT * FROM BS_USER bu WHERE USERNAME = '2056079';\nSELECT * FROM CE_VENDOR cv2 WHERE BS_USER_ID = 723;",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
+    "id": "doc-1795063236246",
+    "topic": "เช็คLOG AMS",
+    "category": "AMS",
+    "problem": "-",
+    "details": "-",
+    "query": "select * from ams_log_interfacesap where ams_request_form_id = '494200' ;\n\nselect * from ams_request_form where form_no = '2026/04003432';\n\nselect * from wf_approve where TRANSACTION_PK = '461798' order by Approve_Seq;\nselect * from wf_transaction where TRANSACTION_PK = '461798';",
+    "updatedAt": "เมื่อสักครู่"
+  },
+  {
     "id": "doc-1793176737598",
     "topic": "ยกเลิกแผนงาน",
     "category": "AMS",
